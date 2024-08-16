@@ -3,10 +3,12 @@ package ed.estudos.screensound.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,8 +29,15 @@ public class Artista {
 	@Enumerated(EnumType.STRING)
 	private TipoArtista tipo;
 	
-	@OneToMany(mappedBy = "artista")
+	@OneToMany(mappedBy = "artista", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Musica> musicas = new ArrayList<>();
+	
+	public Artista() {};
+
+	public Artista(String nome, TipoArtista tipoArtista) {
+		this.nome = nome;
+		this.tipo = tipoArtista;
+	}
 
 	public Long getId() {
 		return id;
@@ -64,8 +73,8 @@ public class Artista {
 	
 	@Override
 	public String toString() {
-		return "Artista=" + nome + '\''+ 
-				", tipo=" + tipo + 
-				", musicas=" + musicas;
+		return "Artista = " + nome + '\''+ 
+				", tipo = " + tipo + 
+				", musicas = " + musicas;
 	}
 }
